@@ -5,15 +5,21 @@ import java.util.Objects;
 
 public class Post {
     private int id;
-    private String title;
-    private String link;
-    private String description;
-    private LocalDateTime created;
+    private final String title;
+    private final String link;
+    private final String description;
+    private final LocalDateTime created;
+
+    public Post(String title, String link, String description, LocalDateTime created) {
+        this.title = title;
+        this.link = link;
+        this.description = description;
+        this.created = created;
+    }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Post{");
-        sb.append("id=").append(id);
         sb.append(", title='").append(title).append('\'');
         sb.append(", link='").append(link).append('\'');
         sb.append(", description='").append(description).append('\'');
@@ -31,11 +37,11 @@ public class Post {
             return false;
         }
         Post post = (Post) o;
-        return id == post.id;
+        return link.equals(post.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(link);
     }
 }
