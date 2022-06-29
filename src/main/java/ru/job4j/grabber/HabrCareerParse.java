@@ -5,16 +5,49 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.job4j.grabber.utils.DateTimeParser;
+import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class HabrCareerParse {
+/**
+ * Класс парсит хабр на тему вакансий по java
+ */
+public class HabrCareerParse implements Parse {
 
+    /**
+     * Ссылка на портал с вакансиями
+     */
     private static final String SOURCE_LINK = "https://career.habr.com";
-
+    /**
+     * Ссыдка на раздел с вакансиями
+     */
     private static final String PAGE_LINK = String.format("%s/vacancies/java_developer", SOURCE_LINK);
+    /**
+     * Парсер даты и времени с сайта в формат LocalDateTime
+     */
+    private final DateTimeParser dateTimeParser;
 
-    private static String retrieveDescription(String link) throws IOException {
+    public HabrCareerParse(DateTimeParser parser) {
+        dateTimeParser = parser;
+    }
+
+    public static void main(String[] args) throws IOException {
+        HabrCareerParse careerParse = new HabrCareerParse(new HabrCareerDateTimeParser());
+        List<Post> list = careerParse.list(PAGE_LINK);
+        list.forEach(System.out::println);
+    }
+
+    /**
+     * Метод возвращает описание вакансии
+     *
+     * @param link ссылка на вакансию
+     * @return строковое представление описания
+     * @throws IOException ошибка ввода вывода
+     */
+    private String retrieveDescription(String link) throws IOException {
         Connection linkConnection = Jsoup.connect(link);
         Document linkDocument;
         linkDocument = linkConnection.get();
@@ -22,9 +55,18 @@ public class HabrCareerParse {
         return descriprion.text();
     }
 
-    public static void main(String[] args) throws IOException {
-        for (int i = 1; i <= 5; i++) {
-            final String PAGE_NUMBER_LINK = String.format("%s?page=%d", PAGE_LINK, i);
+    /**
+     * Метод загружает список всех постов
+     *
+     * @param link1 ссылка раздела с вакансиями
+     * @return список всех постов с вакансиями
+     * @throws IOException ошибка ввода-вывода
+     */
+    @Override
+    public List<Post> list(String link1) throws IOException {
+        List<Post> list = new ArrayList<>();
+        for (int i = 1; i <= 1; i++) {
+            final String PAGE_NUMBER_LINK = String.format("%s?page=%d", link1, i);
             Connection connection = Jsoup.connect(PAGE_NUMBER_LINK);
             Document document = connection.get();
             Elements rows = document.select(".vacancy-card__inner");
@@ -39,11 +81,12 @@ public class HabrCareerParse {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                String vacancyName = titleElement.text();
-                System.out.printf("%s %s %s%n%s%n%n", vacancyName, link, datetime1.attr("datetime"), description);
-
+                list.add(new Post(titleElement.text(),
+                        link, description,
+                        dateTimeParser.parse(datetime1.attr("datetime")))
+                );
             });
         }
+        return list;
     }
 }

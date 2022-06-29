@@ -19,12 +19,11 @@ public class Post {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Post{");
-        sb.append(", title='").append(title).append('\'');
-        sb.append(", link='").append(link).append('\'');
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", created=").append(created);
-        sb.append('}');
+        final StringBuilder sb = new StringBuilder(title);
+        sb.append('\n');
+        sb.append(link).append('\n');
+        sb.append(description).append('\n');
+        sb.append(created).append("\n");
         return sb.toString();
     }
 
