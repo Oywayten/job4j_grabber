@@ -17,10 +17,39 @@ public class Post {
         this.created = created;
     }
 
+    public Post(int id, String title, String link, String description, LocalDateTime created) {
+        this(title, link, description, created);
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(title);
-        sb.append('\n');
+        final StringBuilder sb = new StringBuilder(id).append('\n');
+        sb.append(title).append('\n');
         sb.append(link).append('\n');
         sb.append(description).append('\n');
         sb.append(created).append("\n");
@@ -36,11 +65,11 @@ public class Post {
             return false;
         }
         Post post = (Post) o;
-        return link.equals(post.link);
+        return id == post.id && link.equals(post.link);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(link);
+        return Objects.hash(id, link);
     }
 }
