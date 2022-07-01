@@ -28,7 +28,7 @@ public class HabrCareerParse implements Parse {
     /**
      * Ссыдка на раздел с вакансиями
      */
-    private static final String PAGE_LINK = String.format("%s/vacancies/java_developer", SOURCE_LINK);
+    private static final String PAGE_LINK = "https://career.habr.com/vacancies/java_developer?page=%d";
     /**
      * Парсер даты и времени с сайта в формат LocalDateTime
      */
@@ -40,11 +40,7 @@ public class HabrCareerParse implements Parse {
 
     public static void main(String[] args) {
         HabrCareerParse careerParse = new HabrCareerParse(new HabrCareerDateTimeParser());
-        List<Post> list = new ArrayList<>();
-        for (int i = 1; i <= VOL; i++) {
-            final String PAGE_NUMBER_LINK = String.format("%s?page=%d", PAGE_LINK, i);
-            list.addAll(careerParse.list(PAGE_NUMBER_LINK));
-        }
+        List<Post> list = careerParse.list(PAGE_LINK);
         System.out.println("Найдено " + list.size() + " вакансий");
         list.forEach(System.out::println);
     }
@@ -73,18 +69,26 @@ public class HabrCareerParse implements Parse {
     @Override
     public List<Post> list(String link) {
         List<Post> arrList = new ArrayList<>();
-        Connection connection = Jsoup.connect(link);
-        Document document;
-        try {
-            document = connection.get();
-        } catch (IOException e) {
-            throw new IllegalArgumentException();
+        for (int i = 1; i <= VOL; i++) {
+            Connection connection = Jsoup.connect(String.format(link, i));
+            Document document;
+            try {
+                document = connection.get();
+            } catch (IOException e) {
+                throw new IllegalArgumentException();
+            }
+            Elements rows = document.select(".vacancy-card__inner");
+            rows.forEach(row -> arrList.add(postsPars(row)));
         }
-        Elements rows = document.select(".vacancy-card__inner");
-        rows.forEach(row -> arrList.add(postsPars(row)));
         return arrList;
     }
 
+    /**
+     * Метод парсит объявление о вакансии
+     *
+     * @param row параметр типа Element
+     * @return возвращает объявление о вакансии типа Post
+     */
     private Post postsPars(Element row) {
         Element titleElement = row.select(".vacancy-card__title").first();
         Element datetime1 = row.selectFirst(".basic-date");
