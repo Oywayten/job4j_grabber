@@ -48,10 +48,11 @@ public class Post {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder(id).append('\n');
-        sb.append(title).append('\n');
-        sb.append(link).append('\n');
-        sb.append(description).append('\n');
+        final StringBuilder sb = new StringBuilder();
+        sb.append(id).append(" ");
+        sb.append(title).append("\n");
+        sb.append(link).append("\n");
+        sb.append(description).append("\n");
         sb.append(created).append("\n");
         return sb.toString();
     }
