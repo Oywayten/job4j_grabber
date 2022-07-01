@@ -40,7 +40,12 @@ public class HabrCareerParse implements Parse {
 
     public static void main(String[] args) {
         HabrCareerParse careerParse = new HabrCareerParse(new HabrCareerDateTimeParser());
-        List<Post> list = careerParse.list(PAGE_LINK);
+        List<Post> list = new ArrayList<>();
+        for (int i = 1; i <= VOL; i++) {
+            final String PAGE_NUMBER_LINK = String.format("%s?page=%d", PAGE_LINK, i);
+            list.addAll(careerParse.list(PAGE_NUMBER_LINK));
+        }
+        System.out.println("Найдено " + list.size() + " вакансий");
         list.forEach(System.out::println);
     }
 
@@ -62,28 +67,25 @@ public class HabrCareerParse implements Parse {
     /**
      * Метод загружает список всех постов
      *
-     * @param link1 ссылка раздела с вакансиями
+     * @param link ссылка раздела с вакансиями
      * @return список всех постов с вакансиями
      */
     @Override
-    public List<Post> list(String link1) {
+    public List<Post> list(String link) {
         List<Post> arrList = new ArrayList<>();
-        for (int i = 1; i <= VOL; i++) {
-            final String PAGE_NUMBER_LINK = String.format("%s?page=%d", link1, i);
-            Connection connection = Jsoup.connect(PAGE_NUMBER_LINK);
-            Document document;
-            try {
-                document = connection.get();
-            } catch (IOException e) {
-                throw new IllegalArgumentException();
-            }
-            Elements rows = document.select(".vacancy-card__inner");
-            rows.forEach(row -> postsPars(row, arrList));
+        Connection connection = Jsoup.connect(link);
+        Document document;
+        try {
+            document = connection.get();
+        } catch (IOException e) {
+            throw new IllegalArgumentException();
         }
+        Elements rows = document.select(".vacancy-card__inner");
+        rows.forEach(row -> arrList.add(postsPars(row)));
         return arrList;
     }
 
-    private void postsPars(Element row, List<Post> list) {
+    private Post postsPars(Element row) {
         Element titleElement = row.select(".vacancy-card__title").first();
         Element datetime1 = row.selectFirst(".basic-date");
         Element linkElement = titleElement.child(0);
@@ -94,9 +96,6 @@ public class HabrCareerParse implements Parse {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        list.add(new Post(titleElement.text(),
-                link, description,
-                dateTimeParser.parse(datetime1.attr("datetime")))
-        );
+        return new Post(titleElement.text(), link, description, dateTimeParser.parse(datetime1.attr("datetime")));
     }
 }
