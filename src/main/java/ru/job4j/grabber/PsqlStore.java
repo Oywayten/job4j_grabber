@@ -12,6 +12,10 @@ public class PsqlStore implements Store, AutoCloseable {
 
     private Connection cnn;
 
+    /**
+     * Конструктор получает на входа Properties, парсит их, загружает и создает подключение Connection
+     * @param cfg параметры типа Properties
+     */
     public PsqlStore(Properties cfg) {
         try {
             Class.forName(cfg.getProperty("driver-class-name"));
@@ -29,6 +33,10 @@ public class PsqlStore implements Store, AutoCloseable {
         }
     }
 
+    /**
+     * Метод main для простой проверки работоспособности
+     * @param args список параметров - не задается в данном случае
+     */
     public static void main(String[] args) {
         Properties cfg = new Properties();
         try (InputStream stream = PsqlStore.class.getClassLoader().getResourceAsStream("post.properties")) {
@@ -46,6 +54,10 @@ public class PsqlStore implements Store, AutoCloseable {
         }
     }
 
+    /**
+     * Метод для сохранения объявления типа Post в базе объявлений о вакансиях
+     * @param post объявление
+     */
     @Override
     public void save(Post post) {
         try (PreparedStatement statement = cnn.prepareStatement(
@@ -60,6 +72,10 @@ public class PsqlStore implements Store, AutoCloseable {
         }
     }
 
+    /**
+     * Метод получает все записи из базы
+     * @return возвращает список вакансий типа List<Post>
+     */
     @Override
     public List<Post> getAll() {
         List<Post> posts = new LinkedList<>();
@@ -75,6 +91,12 @@ public class PsqlStore implements Store, AutoCloseable {
         return posts;
     }
 
+    /**
+     * Приватный вспомогательный метод для получения Post из ResultSet
+     * @param set результат выборки из базы типа ResultSet
+     * @return объявление о вакансии типа Post
+     * @throws SQLException ошибка SQL
+     */
     private Post getPost(ResultSet set) throws SQLException {
         return new Post(
                 set.getInt("id"),
@@ -85,6 +107,11 @@ public class PsqlStore implements Store, AutoCloseable {
         );
     }
 
+    /**
+     * Поиск объявления в базе по id
+     * @param id id для поиска
+     * @return объявление из базы типа Post
+     */
     @Override
     public Post findById(int id) {
         Post post = null;
