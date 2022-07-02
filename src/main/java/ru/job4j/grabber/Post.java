@@ -9,6 +9,7 @@ public class Post {
     private final String link;
     private final String description;
     private final LocalDateTime created;
+    private static final String LINE_SEPARATOR = System.lineSeparator();
 
     public Post(String title, String link, String description, LocalDateTime created) {
         this.title = title;
@@ -50,10 +51,10 @@ public class Post {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(id).append(" ");
-        sb.append(title).append("\n");
-        sb.append(link).append("\n");
-        sb.append(description).append("\n");
-        sb.append(created).append("\n");
+        sb.append(title).append(LINE_SEPARATOR);
+        sb.append(link).append(LINE_SEPARATOR);
+        sb.append(description).append(LINE_SEPARATOR);
+        sb.append(created).append(LINE_SEPARATOR);
         return sb.toString();
     }
 
