@@ -33,11 +33,17 @@ values
 select * from person;
 delete from person;
 
--- имена всех person, которые не состоят в компании с id = 5;
-select name from person where company_id != 5;
-
---название компании для каждого человека.
-select p.name, c.name from person p join company c on p.company_id = c.id ;
+/*В одном запросе получаем
+- имена всех person, которые не состоят в компании с id = 5;
+- название компании для каждого человека.*/
+with p as (
+    select name, company_id
+    from person
+    where company_id != 5
+)
+select p.name person, c.name company
+from p
+join company c on p.company_id = c.id ;
 
 /*название компании с максимальным количеством человек + количество человек в этой компании
 (нужно учесть, что таких компаний может быть несколько).*/
