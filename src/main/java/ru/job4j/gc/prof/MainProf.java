@@ -11,9 +11,9 @@ public class MainProf {
         }
         RandomArray array = new RandomArray(new Random());
         array.insert(250_000);
-//       new MergeSort().sort(array);
-//       new InsertSort().sort(array);
-//       new BubbleSort().sort(array);
+       new MergeSort().sort(array);
+       new InsertSort().sort(array);
+       new BubbleSort().sort(array);
 
     }
 }
