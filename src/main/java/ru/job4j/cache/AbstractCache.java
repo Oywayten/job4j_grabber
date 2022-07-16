@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * Абстрактный кэш
+ *
  * @param <K> ключ для карты
  * @param <V> значение для карты
  */
@@ -17,7 +18,8 @@ public abstract class AbstractCache<K, V> {
 
     /**
      * Метод добавляет пару ключ=значение в мапу
-     * @param key ключ
+     *
+     * @param key   ключ
      * @param value значение
      */
     public void put(K key, V value) {
@@ -26,16 +28,18 @@ public abstract class AbstractCache<K, V> {
 
     /**
      * Метод возвращает значение по запрошенному ключу
+     *
      * @param key ключ запроса
      * @return значение
      */
     public V get(K key) {
-        cache.putIfAbsent(key, new SoftReference<>(load(key)));
-        return cache.get(key).get();
+        V value = cache.getOrDefault(key, cache.put(key, new SoftReference<>(load(key)))).get();
+        return value;
     }
 
     /**
      * Читает значение из источника подкласса, выводит его пользователю и допавляет в мапу
+     *
      * @param key ключ поиска значения в источнике
      * @return значение
      */

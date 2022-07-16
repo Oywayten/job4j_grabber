@@ -1,10 +1,8 @@
 package ru.job4j.cache;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.stream.Collectors;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Класс эмулирует поведение AbstractCache.
@@ -23,14 +21,13 @@ public class DirFileCache extends AbstractCache<String, String> {
 
     @Override
     protected String load(String key) {
-        String s = "";
-        File file = new File(cachingDir, key);
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            s = br.lines().collect(Collectors.joining(System.lineSeparator()));
+        String s1 = null;
+        try {
+            s1 = Files.readString(Path.of(cachingDir, key));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return s;
+        return s1;
     }
 
 }
