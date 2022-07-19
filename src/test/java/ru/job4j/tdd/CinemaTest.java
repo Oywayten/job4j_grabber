@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.is;
 
 class CinemaTest {
 
-    @Ignore
+@Ignore
     @Test
     public void whenFind() {
         Cinema cinema = new Cinema3D();
@@ -22,7 +22,6 @@ class CinemaTest {
         assertThat(sessions, is(Arrays.asList(new Session3D())));
     }
 
-    @Ignore
     @Test
     public void whenBuy() {
         Account account = new AccountCinema();
@@ -33,7 +32,6 @@ class CinemaTest {
         assertThat(ticket, is(new Ticket3D()));
     }
 
-    @Ignore
     @Test
     public void whenNotFind() {
         Cinema cinema = new Cinema3D();
@@ -41,7 +39,6 @@ class CinemaTest {
         assertThat(sessions).isEqualTo(new ArrayList<Session>());
     }
 
-    @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void whenCantBuy() {
         Account account = new AccountCinema();
