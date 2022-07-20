@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
 class CinemaTest {
-
-    @Ignore
+/*    @Ignore
     @Test
     public void whenFind() {
         Cinema3D cinema3D = new Cinema3D();
@@ -50,5 +49,5 @@ class CinemaTest {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             Ticket ticket = cinema.buy(account, 1, 1, date);
         });
-    }
+    }*/
 }
