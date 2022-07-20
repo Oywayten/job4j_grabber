@@ -9,11 +9,15 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
+
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
+@Disabled
 class CinemaTest {
-/*    @Ignore
+
+    @Disabled
     @Test
     public void whenFind() {
         Cinema3D cinema3D = new Cinema3D();
@@ -23,6 +27,7 @@ class CinemaTest {
         assertThat(sessions, is(Arrays.asList(new Session3D())));
     }
 
+    @Disabled
     @Test
     public void whenBuy() {
         Account account = new AccountCinema();
@@ -33,6 +38,7 @@ class CinemaTest {
         assertThat(ticket, is(new Ticket3D()));
     }
 
+    @Disabled
     @Test
     public void whenNotFind() {
         Cinema cinema = new Cinema3D();
@@ -40,6 +46,7 @@ class CinemaTest {
         assertThat(sessions).isEqualTo(new ArrayList<Session>());
     }
 
+    @Disabled
     @Test
     public void whenCantBuy() {
         Account account = new AccountCinema();
@@ -49,5 +56,5 @@ class CinemaTest {
         assertThatIllegalArgumentException().isThrownBy(() -> {
             Ticket ticket = cinema.buy(account, 1, 1, date);
         });
-    }*/
+    }
 }
