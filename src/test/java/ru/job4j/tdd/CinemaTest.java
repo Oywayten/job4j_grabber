@@ -1,6 +1,7 @@
 package ru.job4j.tdd;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,23 +9,17 @@ import java.util.Calendar;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.is;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
-
-@Disabled
 class CinemaTest {
 
     @Disabled
     @Test
     public void whenFind() {
-        Cinema3D cinema3D = new Cinema3D();
         Cinema cinema = new Cinema3D();
         cinema.add(new Session3D());
         List<Session> sessions = cinema.find(session -> true);
-        assertThat(sessions, is(Arrays.asList(new Session3D())));
+        assertThat(sessions).isEqualTo(Arrays.asList(new Session3D()));
     }
 
     @Disabled
@@ -35,7 +30,7 @@ class CinemaTest {
         Calendar date = Calendar.getInstance();
         date.set(2020, 10, 10, 23, 00);
         Ticket ticket = cinema.buy(account, 1, 1, date);
-        assertThat(ticket, is(new Ticket3D()));
+        assertThat(ticket).isEqualTo(new Ticket3D());
     }
 
     @Disabled
@@ -48,13 +43,38 @@ class CinemaTest {
 
     @Disabled
     @Test
-    public void whenCantBuy() {
+    public void whenWrongDate() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 42, 23, 00);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            cinema.buy(account, 1, 1, date);
+        });
+    }
+
+    @Disabled
+    @Test
+    public void whenWrongPlace() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
         Calendar date = Calendar.getInstance();
         date.set(2020, 10, 10, 23, 00);
         assertThatIllegalArgumentException().isThrownBy(() -> {
-            Ticket ticket = cinema.buy(account, 1, 1, date);
+            cinema.buy(account, 0, 0, date);
+        });
+    }
+
+    @Disabled
+    @Test
+    public void whenSoldPlace() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 10, 23, 00);
+        cinema.buy(account, 1, 1, date);
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            cinema.buy(account, 1, 1, date);
         });
     }
 }
