@@ -24,4 +24,9 @@ class MaxMinTest {
         int result = maxMin.min(integers, comparator);
         assertThat(expected).isEqualTo(result);
     }
+
+    @Test
+    void whenValueIsEmptyIsNPE() {
+        assertThatNullPointerException().isThrownBy(() -> maxMin.max(List.of(null), comparator));
+    }
 }

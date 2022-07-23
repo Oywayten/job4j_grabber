@@ -4,14 +4,24 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MaxMin {
-    public <T> T max(List<T> value, Comparator<T> comparator) {
-        T max = value.get(1);
-        for (T t : value) {
-            if (comparator.compare(t, max) > 0) {
-                max = t;
+
+    public <T> T maxMin(List<T> value, Comparator<T> comparator) {
+        T maxMin;
+        if (value.isEmpty()) {
+            maxMin = null;
+        } else {
+            maxMin = value.get(0);
+            for (T t : value) {
+                if (comparator.compare(t, maxMin) > 0) {
+                    maxMin = t;
+                }
             }
         }
-        return max;
+        return maxMin;
+    }
+
+    public <T> T max(List<T> value, Comparator<T> comparator) {
+        return maxMin(value, comparator);
     }
 
     public <T> T min(List<T> value, Comparator<T> comparator) {
