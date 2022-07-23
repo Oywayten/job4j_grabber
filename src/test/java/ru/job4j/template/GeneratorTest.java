@@ -7,9 +7,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-class GeneratorTest {
+class GENERATORTest {
     public static final String TEMPLATE = "I am a ${name}, Who are ${subject}? ";
-    Generator generator = new Generator3d();
+    public static final Generator GENERATOR = new Generator3d();
 
     @Disabled
     @Test
@@ -17,7 +17,7 @@ class GeneratorTest {
         Map<String, String> args =
                 Map.of("name", "Petr Arsentev", "subject", "you");
         String expected = "I am a Petr Arsentev, Who are you? ";
-        String result = generator.produce(TEMPLATE, args);
+        String result = GENERATOR.produce(TEMPLATE, args);
         assertThat(result).isEqualTo(expected);
     }
 
@@ -26,7 +26,7 @@ class GeneratorTest {
     void whenKeysNotInMap() {
         Map<String, String> args = Map.of("name", "Petr Arsentev");
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> generator.produce(TEMPLATE, args));
+                .isThrownBy(() -> GENERATOR.produce(TEMPLATE, args));
     }
 
     @Disabled
@@ -38,6 +38,6 @@ class GeneratorTest {
                         "subject", "you",
                         "sex", "male");
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> generator.produce(TEMPLATE, args));
+                .isThrownBy(() -> GENERATOR.produce(TEMPLATE, args));
     }
 }
