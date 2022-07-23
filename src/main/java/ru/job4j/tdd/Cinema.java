@@ -4,6 +4,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * Интерфейс кинотеатра
+ */
 public interface Cinema {
     List<Session> find(Predicate<Session> filter);
 
