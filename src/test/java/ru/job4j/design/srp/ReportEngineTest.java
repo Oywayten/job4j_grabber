@@ -194,7 +194,6 @@ class ReportEngineTest {
                         .append("    </employees>").append(System.lineSeparator())
                         .append("</employees>").append(System.lineSeparator())
                         .toString();
-//        assertThat(result).isEqualTo(expected);
         assertThat(result).isEqualToNormalizingNewlines(expected);
     }
 }
