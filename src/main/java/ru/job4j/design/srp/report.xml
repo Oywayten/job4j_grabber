@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<employees>
+    <employees>
+        <fired>2022-07-15T00:00:00+03:00</fired>
+        <hired>2022-01-15T00:00:00+03:00</hired>
+        <name>Andrew</name>
+        <salary>90000.0</salary>
+    </employees>
+    <employees>
+        <fired>2022-07-31T00:00:00+03:00</fired>
+        <hired>2022-01-31T00:00:00+03:00</hired>
+        <name>Bob</name>
+        <salary>80000.0</salary>
+    </employees>
+    <employees>
+        <fired>2022-07-01T00:00:00+03:00</fired>
+        <hired>2022-01-01T00:00:00+03:00</hired>
+        <name>Ivan</name>
+        <salary>100000.0</salary>
+    </employees>
+</employees>

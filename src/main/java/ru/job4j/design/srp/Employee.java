@@ -2,6 +2,10 @@ package ru.job4j.design.srp;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -10,6 +14,9 @@ public class Employee implements Comparable<Employee> {
     private Calendar hired;
     private Calendar fired;
     private double salary;
+
+    public Employee() {
+    }
 
     public Employee(String name, Calendar hired, Calendar fired, double salary) {
         this.name = name;
@@ -70,5 +77,16 @@ public class Employee implements Comparable<Employee> {
     @Override
     public int compareTo(@NotNull Employee o) {
         return Double.compare(this.getSalary(), o.getSalary());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Employee{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", hired=").append(hired);
+        sb.append(", fired=").append(fired);
+        sb.append(", salary=").append(salary);
+        sb.append('}');
+        return sb.toString();
     }
 }

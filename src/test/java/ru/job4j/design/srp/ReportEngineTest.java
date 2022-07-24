@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,7 +23,6 @@ class ReportEngineTest {
     private static final Employee BOB =
             new Employee("Bob", new GregorianCalendar(2022, Calendar.JANUARY, 31),
                     new GregorianCalendar(2022, Calendar.JULY, 31), 80_000);
-    private static final List<Employee> LIST = Arrays.asList(ANDREW, BOB, IVAN);
     private static final MemStore MEM_STORE = new MemStore();
 
     private static final int EXCHANGE_RATES = 50;
@@ -40,7 +37,7 @@ class ReportEngineTest {
     }
 
     @Test
-    public void whenOldGenerated() {
+    public void whenOldGenerated() throws Exception {
         Report engine = new ReportEngine(MEM_STORE);
         StringBuilder expect = new StringBuilder()
                 .append("Name; Hired; Fired; Salary;")
@@ -122,5 +119,82 @@ class ReportEngineTest {
                 .append(DATE_FORMAT.format(IVAN.getFired().getTime())).append(";")
                 .append(IVAN.getSalary() / EXCHANGE_RATES).append(CURRENCY_NAME).append(System.lineSeparator());
         assertThat(result).isEqualTo(expected.toString());
+    }
+
+    @Test
+    public void whenReportToJson() {
+        ReportToJson engine = new ReportToJson(MEM_STORE);
+        String generate = engine.generate(employee -> true);
+        engine.write(generate);
+        String result = "";
+        try {
+            result = Files.readString(Path.of("src/main/java/ru/job4j/design/srp/report.json"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String expected =
+                new StringBuilder()
+                        .append("[{\"name\":\"Andrew\",")
+                        .append("\"hired\":{\"year\":2022,\"month\":0,")
+                        .append("\"dayOfMonth\":15,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                        .append("\"fired\":{\"year\":2022,\"month\":6,")
+                        .append("\"dayOfMonth\":15,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                        .append("\"salary\":90000.0},")
+                        .append("{\"name\":\"Bob\",\"hired\":{\"year\":2022,\"month\":0,")
+                        .append("\"dayOfMonth\":31,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                        .append("\"fired\":{\"year\":2022,\"month\":6,")
+                        .append("\"dayOfMonth\":31,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                        .append("\"salary\":80000.0},").append("{\"name\":\"Ivan\",")
+                        .append("\"hired\":{\"year\":2022,\"month\":0,")
+                        .append("\"dayOfMonth\":1,\"hourOfDay\":0,\"minute\":0,\"second\":0}")
+                        .append(",\"fired\":{\"year\":2022,\"month\":6,")
+                        .append("\"dayOfMonth\":1,\"hourOfDay\":0,\"minute\":0,\"second\":0},")
+                        .append("\"salary\":100000.0}]")
+                        .toString();
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void whenReportToXml() throws Exception {
+        ReportToXml engine = new ReportToXml(MEM_STORE);
+        String generate = engine.generate(employee -> true);
+        engine.write(generate);
+        String result = "";
+        try {
+            result = Files.readString(Path.of("src/main/java/ru/job4j/design/srp/report.xml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String expected =
+                new StringBuilder()
+                        .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")
+                        .append(System.lineSeparator())
+                        .append("<employees>").append(System.lineSeparator())
+                        .append("    <employees>").append(System.lineSeparator())
+                        .append("        <fired>2022-07-15T00:00:00+03:00</fired>")
+                        .append(System.lineSeparator())
+                        .append("        <hired>2022-01-15T00:00:00+03:00</hired>")
+                        .append(System.lineSeparator())
+                        .append("        <name>Andrew</name>")
+                        .append(System.lineSeparator())
+                        .append("        <salary>90000.0</salary>")
+                        .append(System.lineSeparator())
+                        .append("    </employees>").append(System.lineSeparator())
+                        .append("    <employees>").append(System.lineSeparator())
+                        .append("        <fired>2022-07-31T00:00:00+03:00</fired>").append(System.lineSeparator())
+                        .append("        <hired>2022-01-31T00:00:00+03:00</hired>").append(System.lineSeparator())
+                        .append("        <name>Bob</name>").append(System.lineSeparator())
+                        .append("        <salary>80000.0</salary>").append(System.lineSeparator())
+                        .append("    </employees>").append(System.lineSeparator())
+                        .append("    <employees>").append(System.lineSeparator())
+                        .append("        <fired>2022-07-01T00:00:00+03:00</fired>").append(System.lineSeparator())
+                        .append("        <hired>2022-01-01T00:00:00+03:00</hired>").append(System.lineSeparator())
+                        .append("        <name>Ivan</name>").append(System.lineSeparator())
+                        .append("        <salary>100000.0</salary>").append(System.lineSeparator())
+                        .append("    </employees>").append(System.lineSeparator())
+                        .append("</employees>").append(System.lineSeparator())
+                        .toString();
+//        assertThat(result).isEqualTo(expected);
+        assertThat(result).isEqualToNormalizingNewlines(expected);
     }
 }
