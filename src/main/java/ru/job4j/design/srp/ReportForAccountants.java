@@ -3,13 +3,19 @@ package ru.job4j.design.srp;
 import java.text.SimpleDateFormat;
 import java.util.function.Predicate;
 
-public class ReportEngine implements Report {
+/**
+ * Класс создает отчет с измененным видом зарплаты
+ */
+public class ReportForAccountants implements Report {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd:MM:yyyy HH:mm");
 
     private final Store store;
 
-    public ReportEngine(Store store) {
+    private static final int EXCHANGE_RATES = 50;
+    private static final String CURRENCY_NAME = " usd;";
+
+    public ReportForAccountants(Store store) {
         this.store = store;
     }
 
@@ -22,7 +28,7 @@ public class ReportEngine implements Report {
             text.append(employee.getName()).append(";")
                     .append(DATE_FORMAT.format(employee.getHired().getTime())).append(";")
                     .append(DATE_FORMAT.format(employee.getFired().getTime())).append(";")
-                    .append(employee.getSalary()).append(";")
+                    .append(employee.getSalary() / EXCHANGE_RATES).append(CURRENCY_NAME)
                     .append(System.lineSeparator());
         }
         return text.toString();

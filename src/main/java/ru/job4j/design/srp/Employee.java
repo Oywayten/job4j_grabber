@@ -15,7 +15,7 @@ public class Employee implements Comparable<Employee> {
         this.name = name;
         this.hired = hired;
         this.fired = fired;
-        this.salary = salary / 50;
+        this.salary = salary;
     }
 
     public String getName() {

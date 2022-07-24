@@ -4,17 +4,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class ReportEngineHtml implements Report, Sort, Output {
+/**
+ * Класс выводит отчет в формате HTML
+ */
+public class ReportForProgrammers implements Report, Output {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd:MM:yyyy HH:mm");
-
+    private static final String BR = "<br>";
     private final Store store;
 
-    public ReportEngineHtml(Store store) {
+    public ReportForProgrammers(Store store) {
         this.store = store;
     }
 
@@ -28,24 +30,19 @@ public class ReportEngineHtml implements Report, Sort, Output {
                 .append("    <title>Title</title>").append(System.lineSeparator())
                 .append("</head>").append(System.lineSeparator())
                 .append("<body>").append(System.lineSeparator())
-                .append("Name;Salary;")
+                .append("Name; Hired; Fired; Salary;").append(BR)
                 .append(System.lineSeparator());
         List<Employee> employeeList = store.findBy(filter);
-        sortSalaryDesc(employeeList);
         for (Employee employee : employeeList) {
             text.append(employee.getName()).append(";")
-                    .append(employee.getSalary()).append(";")
+                    .append(DATE_FORMAT.format(employee.getHired().getTime())).append(";")
+                    .append(DATE_FORMAT.format(employee.getFired().getTime())).append(";")
+                    .append(employee.getSalary()).append(";").append(BR)
                     .append(System.lineSeparator());
         }
         text.append("</body>").append(System.lineSeparator())
                 .append("</html>").append(System.lineSeparator());
         return text.toString();
-    }
-
-    @Override
-    public void sortSalaryDesc(List<Employee> list) {
-        Comparator<Employee> comparator = Comparator.comparingDouble(Employee::getSalary);
-        list.sort(comparator.reversed());
     }
 
     @Override
