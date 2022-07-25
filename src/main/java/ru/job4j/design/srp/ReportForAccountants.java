@@ -12,8 +12,8 @@ public class ReportForAccountants implements Report {
 
     private final Store store;
 
-    private static final int EXCHANGE_RATES = 50;
-    private static final String CURRENCY_NAME = " usd;";
+    public static final int EXCHANGE_RATES = 50;
+    public static final String CURRENCY_NAME = " usd;";
 
     public ReportForAccountants(Store store) {
         this.store = store;

@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 public class ReportForProgrammers implements Report, Output {
 
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd:MM:yyyy HH:mm");
-    private static final String BR = "<br>";
+    public static final String BR = "<br>";
     private final Store store;
 
     public ReportForProgrammers(Store store) {

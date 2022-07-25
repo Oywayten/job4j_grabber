@@ -25,10 +25,6 @@ class ReportEngineTest {
                     new GregorianCalendar(2022, Calendar.JULY, 31), 80_000);
     private static final MemStore MEM_STORE = new MemStore();
 
-    private static final int EXCHANGE_RATES = 50;
-    private static final String CURRENCY_NAME = " usd;";
-    private static final String BR = "<br>";
-
     @BeforeAll
     private static void addEm() {
         MEM_STORE.add(ANDREW);
@@ -73,17 +69,17 @@ class ReportEngineTest {
                 .append("    <title>Title</title>").append(System.lineSeparator())
                 .append("</head>").append(System.lineSeparator())
                 .append("<body>").append(System.lineSeparator())
-                .append("Name; Hired; Fired; Salary;").append(BR)
+                .append("Name; Hired; Fired; Salary;").append(ReportForProgrammers.BR)
                 .append(System.lineSeparator())
                 .append("Andrew;").append(DATE_FORMAT.format(ANDREW.getHired().getTime())).append(";")
                 .append(DATE_FORMAT.format(ANDREW.getFired().getTime())).append(";")
-                .append(ANDREW.getSalary()).append(";").append(BR).append(System.lineSeparator())
+                .append(ANDREW.getSalary()).append(";").append(ReportForProgrammers.BR).append(System.lineSeparator())
                 .append("Bob;").append(DATE_FORMAT.format(BOB.getHired().getTime())).append(";")
                 .append(DATE_FORMAT.format(BOB.getFired().getTime())).append(";")
-                .append(BOB.getSalary()).append(";").append(BR).append(System.lineSeparator())
+                .append(BOB.getSalary()).append(";").append(ReportForProgrammers.BR).append(System.lineSeparator())
                 .append("Ivan;").append(DATE_FORMAT.format(IVAN.getHired().getTime())).append(";")
                 .append(DATE_FORMAT.format(IVAN.getFired().getTime())).append(";")
-                .append(IVAN.getSalary()).append(";").append(BR).append(System.lineSeparator())
+                .append(IVAN.getSalary()).append(";").append(ReportForProgrammers.BR).append(System.lineSeparator())
                 .append("</body>").append(System.lineSeparator())
                 .append("</html>").append(System.lineSeparator());
         assertThat(result).isEqualTo(expected.toString());
@@ -111,13 +107,16 @@ class ReportEngineTest {
                 .append(System.lineSeparator())
                 .append("Andrew;").append(DATE_FORMAT.format(ANDREW.getHired().getTime())).append(";")
                 .append(DATE_FORMAT.format(ANDREW.getFired().getTime())).append(";")
-                .append(ANDREW.getSalary() / EXCHANGE_RATES).append(CURRENCY_NAME).append(System.lineSeparator())
+                .append(ANDREW.getSalary() / ReportForAccountants.EXCHANGE_RATES)
+                .append(ReportForAccountants.CURRENCY_NAME).append(System.lineSeparator())
                 .append("Bob;").append(DATE_FORMAT.format(BOB.getHired().getTime())).append(";")
                 .append(DATE_FORMAT.format(BOB.getFired().getTime())).append(";")
-                .append(BOB.getSalary() / EXCHANGE_RATES).append(CURRENCY_NAME).append(System.lineSeparator())
+                .append(BOB.getSalary() / ReportForAccountants.EXCHANGE_RATES)
+                .append(ReportForAccountants.CURRENCY_NAME).append(System.lineSeparator())
                 .append("Ivan;").append(DATE_FORMAT.format(IVAN.getHired().getTime())).append(";")
                 .append(DATE_FORMAT.format(IVAN.getFired().getTime())).append(";")
-                .append(IVAN.getSalary() / EXCHANGE_RATES).append(CURRENCY_NAME).append(System.lineSeparator());
+                .append(IVAN.getSalary() / ReportForAccountants.EXCHANGE_RATES)
+                .append(ReportForAccountants.CURRENCY_NAME).append(System.lineSeparator());
         assertThat(result).isEqualTo(expected.toString());
     }
 
