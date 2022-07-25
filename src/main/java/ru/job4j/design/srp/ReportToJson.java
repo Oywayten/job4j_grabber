@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 public class ReportToJson implements Report, Output {
 
     private final Store store;
-    Gson gson;
+    private final Gson gson;
 
     public ReportToJson(Store store) {
         this.store = store;

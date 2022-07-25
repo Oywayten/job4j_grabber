@@ -17,8 +17,8 @@ import java.util.function.Predicate;
 public class ReportToXml implements Report, Output {
 
     private final Store store;
-    JAXBContext context;
-    Marshaller marshaller;
+    private JAXBContext context;
+    private static Marshaller marshaller;
 
     public ReportToXml(Store store) {
         this.store = store;
