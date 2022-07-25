@@ -35,19 +35,13 @@ class ReportEngineTest {
     @Test
     public void whenOldGenerated() throws Exception {
         Report engine = new ReportEngine(MEM_STORE);
-        StringBuilder expect = new StringBuilder()
-                .append("Name; Hired; Fired; Salary;")
-                .append(System.lineSeparator())
-                .append("Andrew;").append(DATE_FORMAT.format(ANDREW.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(ANDREW.getFired().getTime())).append(";")
-                .append(ANDREW.getSalary()).append(";").append(System.lineSeparator())
-                .append("Bob;").append(DATE_FORMAT.format(BOB.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(BOB.getFired().getTime())).append(";")
-                .append(BOB.getSalary()).append(";").append(System.lineSeparator())
-                .append("Ivan;").append(DATE_FORMAT.format(IVAN.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(IVAN.getFired().getTime())).append(";")
-                .append(IVAN.getSalary()).append(";").append(System.lineSeparator());
-        assertThat(engine.generate(em -> true)).isEqualTo(expect.toString());
+        String expect = """
+                Name; Hired; Fired; Salary;
+                Andrew;15:01:2022 00:00;15:07:2022 00:00;90000.0;
+                Bob;31:01:2022 00:00;31:07:2022 00:00;80000.0;
+                Ivan;01:01:2022 00:00;01:07:2022 00:00;100000.0;
+                """;
+        assertThat(engine.generate(em -> true)).isEqualToNormalizingNewlines(expect);
     }
 
     @Test
@@ -61,28 +55,22 @@ class ReportEngineTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        StringBuilder expected = new StringBuilder();
-        expected.append("<!DOCTYPE html>").append(System.lineSeparator())
-                .append("<html lang=\"en\">").append(System.lineSeparator())
-                .append("<head>").append(System.lineSeparator())
-                .append("    <meta charset=\"UTF-8\">").append(System.lineSeparator())
-                .append("    <title>Title</title>").append(System.lineSeparator())
-                .append("</head>").append(System.lineSeparator())
-                .append("<body>").append(System.lineSeparator())
-                .append("Name; Hired; Fired; Salary;").append(ReportForProgrammers.BR)
-                .append(System.lineSeparator())
-                .append("Andrew;").append(DATE_FORMAT.format(ANDREW.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(ANDREW.getFired().getTime())).append(";")
-                .append(ANDREW.getSalary()).append(";").append(ReportForProgrammers.BR).append(System.lineSeparator())
-                .append("Bob;").append(DATE_FORMAT.format(BOB.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(BOB.getFired().getTime())).append(";")
-                .append(BOB.getSalary()).append(";").append(ReportForProgrammers.BR).append(System.lineSeparator())
-                .append("Ivan;").append(DATE_FORMAT.format(IVAN.getHired().getTime())).append(";")
-                .append(DATE_FORMAT.format(IVAN.getFired().getTime())).append(";")
-                .append(IVAN.getSalary()).append(";").append(ReportForProgrammers.BR).append(System.lineSeparator())
-                .append("</body>").append(System.lineSeparator())
-                .append("</html>").append(System.lineSeparator());
-        assertThat(result).isEqualTo(expected.toString());
+        String expected = """
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Title</title>
+                </head>
+                <body>
+                Name; Hired; Fired; Salary;<br>
+                Andrew;15:01:2022 00:00;15:07:2022 00:00;90000.0;<br>
+                Bob;31:01:2022 00:00;31:07:2022 00:00;80000.0;<br>
+                Ivan;01:01:2022 00:00;01:07:2022 00:00;100000.0;<br>
+                </body>
+                </html>
+                """;
+        assertThat(result).isEqualToNormalizingNewlines(expected);
     }
 
     @Test
@@ -164,35 +152,29 @@ class ReportEngineTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String expected =
-                new StringBuilder()
-                        .append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>")
-                        .append(System.lineSeparator())
-                        .append("<employees>").append(System.lineSeparator())
-                        .append("    <employees>").append(System.lineSeparator())
-                        .append("        <fired>2022-07-15T00:00:00+03:00</fired>")
-                        .append(System.lineSeparator())
-                        .append("        <hired>2022-01-15T00:00:00+03:00</hired>")
-                        .append(System.lineSeparator())
-                        .append("        <name>Andrew</name>")
-                        .append(System.lineSeparator())
-                        .append("        <salary>90000.0</salary>")
-                        .append(System.lineSeparator())
-                        .append("    </employees>").append(System.lineSeparator())
-                        .append("    <employees>").append(System.lineSeparator())
-                        .append("        <fired>2022-07-31T00:00:00+03:00</fired>").append(System.lineSeparator())
-                        .append("        <hired>2022-01-31T00:00:00+03:00</hired>").append(System.lineSeparator())
-                        .append("        <name>Bob</name>").append(System.lineSeparator())
-                        .append("        <salary>80000.0</salary>").append(System.lineSeparator())
-                        .append("    </employees>").append(System.lineSeparator())
-                        .append("    <employees>").append(System.lineSeparator())
-                        .append("        <fired>2022-07-01T00:00:00+03:00</fired>").append(System.lineSeparator())
-                        .append("        <hired>2022-01-01T00:00:00+03:00</hired>").append(System.lineSeparator())
-                        .append("        <name>Ivan</name>").append(System.lineSeparator())
-                        .append("        <salary>100000.0</salary>").append(System.lineSeparator())
-                        .append("    </employees>").append(System.lineSeparator())
-                        .append("</employees>").append(System.lineSeparator())
-                        .toString();
+        String expected = """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <employees>
+                    <employees>
+                        <fired>2022-07-15T00:00:00+03:00</fired>
+                        <hired>2022-01-15T00:00:00+03:00</hired>
+                        <name>Andrew</name>
+                        <salary>90000.0</salary>
+                    </employees>
+                    <employees>
+                        <fired>2022-07-31T00:00:00+03:00</fired>
+                        <hired>2022-01-31T00:00:00+03:00</hired>
+                        <name>Bob</name>
+                        <salary>80000.0</salary>
+                    </employees>
+                    <employees>
+                        <fired>2022-07-01T00:00:00+03:00</fired>
+                        <hired>2022-01-01T00:00:00+03:00</hired>
+                        <name>Ivan</name>
+                        <salary>100000.0</salary>
+                    </employees>
+                </employees>
+                """;
         assertThat(result).isEqualToNormalizingNewlines(expected);
     }
 }

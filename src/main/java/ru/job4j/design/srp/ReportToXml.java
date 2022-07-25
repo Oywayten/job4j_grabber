@@ -1,13 +1,13 @@
 package ru.job4j.design.srp;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -16,19 +16,24 @@ import java.util.function.Predicate;
  */
 public class ReportToXml implements Report, Output {
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd:MM:yyyy HH:mm");
     private final Store store;
+    JAXBContext context;
+    Marshaller marshaller;
 
     public ReportToXml(Store store) {
         this.store = store;
+        try {
+            context = JAXBContext.newInstance(Employees.class);
+            marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public String generate(Predicate<Employee> filter) throws Exception {
         List<Employee> employeeList = store.findBy(filter);
-        JAXBContext context = JAXBContext.newInstance(Employees.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         String generate;
         try (StringWriter writer = new StringWriter()) {
             marshaller.marshal(new Employees(employeeList), writer);
