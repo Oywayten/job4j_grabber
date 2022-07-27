@@ -7,12 +7,17 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class ControlQualityTest {
+    static ControlQuality controlQuality = new ControlQuality();
+    static Store warh = new Warehouse();
+    static Store shop = new Shop();
+    static Store trash = new Trash();
     DataGetSet apple = new Apple("NewApple",
-                      new GregorianCalendar(2022, Calendar.DECEMBER, 12),
-                    new GregorianCalendar(2022, Calendar.JULY, 27), 100, 10);
+            new GregorianCalendar(2022, Calendar.DECEMBER, 12),
+            new GregorianCalendar(2022, Calendar.JULY, 27), 100, 10);
     DataGetSet fish = new Fish("Fish",
             new GregorianCalendar(2022, Calendar.AUGUST, 27),
             new GregorianCalendar(2022, Calendar.JUNE, 27), 400, 20);
@@ -23,10 +28,6 @@ class ControlQualityTest {
             new GregorianCalendar(2022, Calendar.JULY, 26),
             new GregorianCalendar(2022, Calendar.JUNE, 27), 400, 20);
     List<DataGetSet> foodList = List.of(apple, fish, meat, secondFish);
-    ControlQuality controlQuality = new ControlQuality();
-    Store warh = new Warehouse();
-    Store shop = new Shop();
-    Store trash = new Trash();
 
     @BeforeAll
     static void addStore() {
@@ -48,17 +49,9 @@ class ControlQualityTest {
     }
 
     @Test
-    void whenAppleToWdarehouseFishToShopMeatToShopAppleToTrash() {
-        controlQuality.addStore(warh);
-        controlQuality.addStore(shop);
-        controlQuality.addStore(trash);
-        for (DataGetSet f : foodList) {
-            double term = controlQuality.termControl(f);
-            controlQuality.separate(f, term);
-        }
-        assertThat(warh.findBy(set -> true)).isEqualTo(List.of(apple));
-        assertThat(shop.findBy(set -> true)).isEqualTo(List.of(fish, meat));
-        assertThat(shop.findBy(set -> true).get(1).getPrice()).isEqualTo(575);
-        assertThat(warh.findBy(set -> true)).isEqualTo(List.of(apple));
+    void whenNullIsNpe() {
+        assertThatNullPointerException().isThrownBy(() -> {
+            controlQuality.termControl(null);
+        });
     }
 }
