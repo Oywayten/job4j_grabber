@@ -20,11 +20,6 @@ public class ControlQuality implements Separator, ControlTerm {
     }
 
     @Override
-    public List<Store> getStores() {
-        return storeList;
-    }
-
-    @Override
     public void addStore(Store store) {
         storeList.add(store);
     }
