@@ -1,9 +1,9 @@
 package ru.job4j.diperror;
 
 public class Dog {
-    String name;
-    String age;
-    String breed;
+    private String name;
+    private String age;
+    private String breed;
 
     public Dog(String name, String age, String breed) {
         this.name = name;

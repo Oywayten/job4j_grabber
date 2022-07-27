@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DogOwner {
-    String name;
-    String age;
-    List<Dog> dogs;
+    private String name;
+    private String age;
+    private final List<Dog> dogs;
     
     public DogOwner(List<Dog> dogs) {
         this.dogs = dogs;
