@@ -2,7 +2,7 @@ package ru.job4j.design.foodstore;
 
 import java.util.Calendar;
 
-public class Apple implements DataGet {
+public class Apple implements DataGetSet {
     Food food;
 
     public Apple(String name, Calendar expiryDate, Calendar createDate, double price, int discount) {
@@ -27,6 +27,11 @@ public class Apple implements DataGet {
     @Override
     public double getPrice() {
         return food.getPrice();
+    }
+
+    @Override
+    public void setDiscountPrice() {
+        food.setDiscountPrice();
     }
 
     @Override

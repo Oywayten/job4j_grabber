@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 public interface Store {
 
-    void add(Food food);
+    void addFood(DataGetSet food, double term);
 
-    List<Food> findBy(Predicate<Food> filter);
+    List<DataGetSet> findBy(Predicate<DataGetSet> filter);
 }

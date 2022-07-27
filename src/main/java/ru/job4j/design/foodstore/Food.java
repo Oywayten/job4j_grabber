@@ -2,11 +2,11 @@ package ru.job4j.design.foodstore;
 
 import java.util.Calendar;
 
-public class Food implements DataGet {
+public class Food implements DataGetSet {
     private final String name;
     private final Calendar expiryDate;
     private final Calendar createDate;
-    private final double price;
+    private double price;
     private final int discount;
 
     public Food(String name, Calendar expiryDate, Calendar createDate, double price, int discount) {
@@ -35,6 +35,11 @@ public class Food implements DataGet {
     @Override
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public void setDiscountPrice() {
+        price = price + (price / 100 * getDiscount());
     }
 
     @Override

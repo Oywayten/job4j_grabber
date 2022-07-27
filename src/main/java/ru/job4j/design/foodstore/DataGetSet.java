@@ -2,7 +2,7 @@ package ru.job4j.design.foodstore;
 
 import java.util.Calendar;
 
-public interface DataGet {
+public interface DataGetSet {
 
     String getName();
 
@@ -11,6 +11,8 @@ public interface DataGet {
     Calendar getExpiryDate();
 
     double getPrice();
+
+    void setDiscountPrice();
 
     int getDiscount();
 }

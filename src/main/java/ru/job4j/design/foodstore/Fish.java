@@ -2,7 +2,7 @@ package ru.job4j.design.foodstore;
 
 import java.util.Calendar;
 
-public class Fish implements DataGet {
+public class Fish implements DataGetSet {
     Food food;
 
     public Fish(String name, Calendar expiryDate, Calendar createDate, double price, int discount) {
@@ -32,5 +32,10 @@ public class Fish implements DataGet {
     @Override
     public int getDiscount() {
         return food.getDiscount();
+    }
+
+    @Override
+    public void setDiscountPrice() {
+        food.setDiscountPrice();
     }
 }
