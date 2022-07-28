@@ -5,18 +5,18 @@ package ru.job4j.design.parking;
  * её не интересует, какого типа конкретный паркинг.
  * В классе реализующем интерфейс, создается поле-хранилище паркингов разных типов.
  */
-public interface CarBroker {
+public interface ICarBroker {
 
     /**
      * Метод добавляет паркинги в хранилище брокера паркингов
      */
-    void addParkingToList(Iparking iparking);
+    void addParkingToList(IParking iparking);
 
     /**
      * Метед паркует машины в один из паркингов хранилища, если есть
      * подходящий паркинг со свободным местом нужного размера.
      */
-    void parkingCar(Icar icar);
+    void parkingCar(ICar car);
 
     /**
      * Метод возвращает хранилище, чтобы в него можно было добавить машину.
@@ -24,4 +24,16 @@ public interface CarBroker {
      * @return хранилище маркерного интерфейса
      */
     CarsStore getParkings();
+
+    /**
+     * Метод сообщает сколько свободных мест осталось легкового типа
+     * @return число мест
+     */
+    int getFreePass();
+
+    /**
+     * Метод сообщает сколько свободных мест осталось грузового типа
+     * @return число мест
+     */
+    int getFreeCargo();
 }
