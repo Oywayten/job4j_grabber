@@ -7,18 +7,22 @@ import java.util.function.Predicate;
 
 public class Trash implements Store {
 
-    private final List<DataGetSet> foods = new ArrayList<>();
+    private final List<Food> foods = new ArrayList<>();
 
     @Override
-    public void addFood(DataGetSet food, double term) {
+    public boolean addFood(Food food) {
+        boolean b = false;
         Objects.requireNonNull(food);
-        if (term >= 100) {
+        double term = termControl(food);
+        if (term >= TRASH_TERM) {
             foods.add(food);
+            b = true;
         }
+        return b;
     }
 
     @Override
-    public List<DataGetSet> findBy(Predicate<DataGetSet> filter) {
+    public List<Food> findBy(Predicate<Food> filter) {
         return foods.stream().filter(filter).toList();
     }
 

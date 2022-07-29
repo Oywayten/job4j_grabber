@@ -1,36 +1,23 @@
 package ru.job4j.design.foodstore;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
-public class ControlQuality implements Separator, ControlTerm {
+public class ControlQuality implements Separator {
 
-    private final List<Store> storeList = new ArrayList<>();
+    private final List<Store> storeList;
 
-    public ControlQuality() {
+    public ControlQuality(List<Store> storeList) {
+        this.storeList = storeList;
     }
 
     @Override
-    public void separate(DataGetSet food, double term) {
+    public void separate(Food food) {
         for (Store s : storeList) {
-            s.addFood(food, term);
+            boolean b = s.addFood(food);
+            if (b) {
+                break;
+            }
         }
-    }
-
-    @Override
-    public void addStore(Store store) {
-        storeList.add(store);
-    }
-
-    @Override
-    public double termControl(DataGetSet food) {
-        Objects.requireNonNull(food);
-        double fullTerm = food.getExpiryDate().getTimeInMillis() - food.getCreateDate().getTimeInMillis();
-        double passedTerm = Calendar.getInstance().getTimeInMillis() - food.getCreateDate().getTimeInMillis();
-        double ratioTerm = passedTerm / fullTerm;
-        return ratioTerm * 100;
     }
 }
 
