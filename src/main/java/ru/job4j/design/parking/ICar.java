@@ -3,7 +3,7 @@ package ru.job4j.design.parking;
 public interface ICar {
 
     /**
-     * Метод сообщает, сколько места занимает машина
+     * Метод сообщает размер машины
      * @return размер машины
      */
     int getSize();
