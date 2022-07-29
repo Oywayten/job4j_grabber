@@ -1,11 +1,11 @@
 package ru.job4j.design.parking;
 
 public class CargoCar3d implements ICar {
+    private static final int ONE = 1;
     private final int size;
-    private static final int CONST = 1;
 
     public CargoCar3d(int size) {
-        if (size <= CONST) {
+        if (size <= ONE) {
             throw new IllegalArgumentException("Size must be greater than 1");
         }
         this.size = size;
@@ -13,6 +13,6 @@ public class CargoCar3d implements ICar {
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 }

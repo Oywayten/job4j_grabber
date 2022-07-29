@@ -8,6 +8,6 @@ public class PassCar3d implements ICar {
 
     @Override
     public int getSize() {
-        return 0;
+        return SIZE;
     }
 }
