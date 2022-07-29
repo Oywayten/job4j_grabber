@@ -4,6 +4,7 @@ public interface ICar {
 
     /**
      * Метод сообщает размер машины
+     *
      * @return размер машины
      */
     int getSize();
