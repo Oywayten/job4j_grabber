@@ -15,7 +15,6 @@ class ControlQualityTest {
     static Food fish;
     static Food meat;
     static Food secondFish;
-    static List<Food> foodList;
     Store warh = new Warehouse();
     Store shop = new Shop();
     Store trash = new Trash();
