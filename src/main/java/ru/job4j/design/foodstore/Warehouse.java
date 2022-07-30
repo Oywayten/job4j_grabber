@@ -38,4 +38,9 @@ public class Warehouse implements Store {
     public List<Food> findBy(Predicate<Food> filter) {
         return foods.stream().filter(filter).toList();
     }
+
+    @Override
+    public void clear() {
+        foods.clear();
+    }
 }

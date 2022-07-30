@@ -1,5 +1,6 @@
 package ru.job4j.design.foodstore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class ControlQuality implements Separator {
 
     /**
      * Конструктор для создания экземпляра класса.
+     *
      * @param storeList списко хранилищ
      */
     public ControlQuality(List<Store> storeList) {
@@ -23,6 +25,7 @@ public class ControlQuality implements Separator {
     /**
      * Метод в цикле добавляет продукт в каждое из храниилищ списка storeList,
      * если результат добавления s.addFood(food) == true, то цикл заканчивается.
+     *
      * @param food продукт для добавления в хранилище
      */
     @Override
@@ -33,6 +36,24 @@ public class ControlQuality implements Separator {
                 break;
             }
         }
+    }
+
+    @Override
+    public void resort() {
+        List<Food> foods = collectAndClear();
+        for (Food f : foods) {
+            separate(f);
+        }
+    }
+
+    private List<Food> collectAndClear() {
+        List<Food> foods = new ArrayList<>();
+        for (Store s : storeList) {
+            List<Food> by = s.findBy(food -> true);
+            foods.addAll(by);
+            s.clear();
+        }
+        return foods;
     }
 }
 

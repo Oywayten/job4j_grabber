@@ -39,4 +39,8 @@ public class Trash implements Store {
         return foods.stream().filter(filter).toList();
     }
 
+    @Override
+    public void clear() {
+        foods.clear();
+    }
 }

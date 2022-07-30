@@ -11,6 +11,8 @@ public interface Store {
 
     List<Food> findBy(Predicate<Food> filter);
 
+    void clear();
+
     default double termControl(Food food) {
         Objects.requireNonNull(food);
         double fullTerm = food.getExpiryDate().getTimeInMillis() - food.getCreateDate().getTimeInMillis();
