@@ -75,14 +75,14 @@ class ControlQualityTest {
                 creatSecondFish.get(Calendar.DAY_OF_MONTH) - 7,
                 10, 0);
         secondFish = new Fish("SecondFish", expirySecondFish, creatSecondFish, 400, 20);
-        foodList = List.of(apple, fish, meat, secondFish);
     }
 
     @Test
     void whenAppleToWarehouseFishToShopMeatToShopAppleToTrash() {
-        for (Food f : foodList) {
-            controlQuality.separate(f);
-        }
+        controlQuality.separate(apple);
+        controlQuality.separate(fish);
+        controlQuality.separate(meat);
+        controlQuality.separate(secondFish);
         assertThat(warh.findBy(set -> true)).isEqualTo(List.of(apple));
         assertThat(shop.findBy(set -> true)).isEqualTo(List.of(fish, meat));
         assertThat(shop.findBy(set -> true).get(1).getPrice()).isEqualTo(575);

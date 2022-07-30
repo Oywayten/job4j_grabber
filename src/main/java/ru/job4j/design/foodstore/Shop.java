@@ -5,9 +5,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
+/**
+ * Класс хранилища Магазин
+ */
 public class Shop implements Store {
+    private static final int WAREHAUS_TERM = 25;
+    private static final int DISCOUNT_TERM = 75;
+    private static final int TRASH_TERM = 100;
     private final List<Food> foods = new ArrayList<>();
 
+    /**
+     * Метод добавляет продукт в магазин если срок продукта от 25 до 75 %%.
+     * Если срок вышел больше 75%, но не законился, то устанавливается цена со скидкой, после чего продукт
+     * тоже добавляется в магазин.
+     * @param food - продукт для добавления на склад
+     * @return возвращает true, если продукт был добавлен на склад
+     */
     @Override
     public boolean addFood(Food food) {
         boolean b = false;
@@ -24,11 +37,20 @@ public class Shop implements Store {
         return b;
     }
 
-    public void setDiscountPrice(Food food) {
+    /**
+     * Приватный метод для установки цены со скидкой на продукт
+      * @param food продукт, для которого надо установить цену со скидкой
+     */
+    private void setDiscountPrice(Food food) {
         double price = food.getPrice() + (food.getPrice() / 100 * food.getDiscount());
         food.setPrice(price);
     }
 
+    /**
+     * Возвращает список продуктов со склада фильтрованных по Predicate
+     * @param filter переданный Predicate для фильтрации
+     * @return список продуктов типа List<Food>
+     */
     @Override
     public List<Food> findBy(Predicate<Food> filter) {
         return foods.stream().filter(filter).toList();

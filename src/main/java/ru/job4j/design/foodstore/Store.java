@@ -6,9 +6,6 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 public interface Store {
-    int WAREHAUS_TERM = 25;
-    int DISCOUNT_TERM = 75;
-    int TRASH_TERM = 100;
 
     boolean addFood(Food food);
 

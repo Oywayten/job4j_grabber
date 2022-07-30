@@ -2,6 +2,9 @@ package ru.job4j.design.foodstore;
 
 import java.util.Calendar;
 
+/**
+ * Абстрактный класс для продуктов
+ */
 public abstract class Food {
     private final String name;
     private final Calendar expiryDate;
