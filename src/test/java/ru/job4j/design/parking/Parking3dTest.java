@@ -53,4 +53,10 @@ class Parking3dTest {
         parking = new Parking3d(2, 2);
         assertThatNullPointerException().isThrownBy(() -> parking.carParking(null));
     }
+
+    @Test
+    void whenPassCarParkingToCargoCarPlace() {
+        parking = new Parking3d(0, 1);
+        assertThat(parking.carParking(new PassCar3d())).isEqualTo(false);
+    }
 }
