@@ -98,7 +98,7 @@ public class SimpleMenu implements Menu {
     /**
      * Класс служит для того, чтобы скомпоновать пункт меню и номер пункта (1.1., 1.1.1. и т.д.).
      */
-    private class ItemInfo {
+    private static class ItemInfo {
 
         MenuItem menuItem;
         String number;
