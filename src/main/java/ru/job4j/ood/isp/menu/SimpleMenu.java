@@ -30,9 +30,9 @@ public class SimpleMenu implements Menu {
      */
     private static class SimpleMenuItem implements MenuItem {
 
-        private String name;
-        private List<MenuItem> children = new ArrayList<>();
-        private ActionDelegate actionDelegate;
+        private final String name;
+        private final List<MenuItem> children = new ArrayList<>();
+        private final ActionDelegate actionDelegate;
 
         public SimpleMenuItem(String name, ActionDelegate actionDelegate) {
             this.name = name;
@@ -87,13 +87,12 @@ public class SimpleMenu implements Menu {
             String lastNumber = numbers.removeFirst();
             List<MenuItem> children = current.getChildren();
             int currentNumber = children.size();
-            for (var i = children.listIterator(children.size()); i.hasPrevious();) {
+            for (ListIterator<MenuItem> i = children.listIterator(children.size()); i.hasPrevious();) {
                 stack.addFirst(i.previous());
                 numbers.addFirst(lastNumber.concat(String.valueOf(currentNumber--)).concat("."));
             }
             return new ItemInfo(current, lastNumber);
         }
-
     }
 
     /**

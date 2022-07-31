@@ -16,6 +16,9 @@ public interface Menu extends Iterable<Menu.MenuItemInfo> {
 
     Optional<Menu.MenuItemInfo> select(String itemName);
 
+    /**
+     * Класс для возврата вместо MenuItem
+     */
     class MenuItemInfo {
 
         private final String name;
