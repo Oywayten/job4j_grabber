@@ -8,21 +8,63 @@ public class SimpleMenu implements Menu {
 
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
-
+        boolean b = false;
+        Optional<ItemInfo> parentOp = findItem(parentName);
+        Optional<ItemInfo> childOp = findItem(childName);
+        if (Objects.equals(Menu.ROOT, parentName) && childOp.isEmpty()) {
+            rootElements.add(new SimpleMenuItem(childName, actionDelegate));
+            b = true;
+        } else if (parentOp.isPresent() && childOp.isEmpty()) {
+            ItemInfo parent = parentOp.get();
+            List<MenuItem> children = parent.menuItem.getChildren();
+            children.add(new SimpleMenuItem(childName, actionDelegate));
+            b = true;
+        }
+        return b;
     }
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-
+        Optional<ItemInfo> item = findItem(itemName);
+        ItemInfo info = item.get();
+        MenuItem item1 = info.menuItem;
+        MenuItemInfo info1 = new MenuItemInfo(item1, info.number);
+        return Optional.of(info1);
     }
 
     @Override
     public Iterator<MenuItemInfo> iterator() {
+        return new Iterator<>() {
+            final DFSIterator iterator = new DFSIterator();
 
+            @Override
+            public boolean hasNext() {
+                return iterator.hasNext();
+            }
+
+            @Override
+            public MenuItemInfo next() {
+                ItemInfo next = iterator.next();
+                MenuItem menuItem = next.menuItem;
+                String number = next.number;
+                return new MenuItemInfo(menuItem, number);
+            }
+        };
     }
 
     private Optional<ItemInfo> findItem(String name) {
-
+        DFSIterator iterator = new DFSIterator();
+        ItemInfo next = null;
+        while (iterator.hasNext()) {
+            next = iterator.next();
+            String name1 = next.menuItem.getName();
+            if (name1.equals(name)) {
+                break;
+            } else {
+                next = null;
+            }
+        }
+        return Optional.ofNullable(next);
     }
 
     /**
