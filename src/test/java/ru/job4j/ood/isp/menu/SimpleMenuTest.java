@@ -13,17 +13,17 @@ public class SimpleMenuTest {
 
     @BeforeAll
     static void setup() {
-        menu.add(Menu.ROOT, "Сходить в магазин", STUB_ACTION);
-        menu.add(Menu.ROOT, "Покормить собаку", STUB_ACTION);
-        menu.add("Сходить в магазин", "Купить продукты", STUB_ACTION);
-        menu.add("Купить продукты", "Купить хлеб", STUB_ACTION);
-        menu.add("Купить продукты", "Купить молоко", STUB_ACTION);
+        menu.add(Menu.ROOT, "Сходить в магазин", TODOApp.STUB_ACTION);
+        menu.add(Menu.ROOT, "Покормить собаку", TODOApp.STUB_ACTION);
+        menu.add("Сходить в магазин", "Купить продукты", TODOApp.STUB_ACTION);
+        menu.add("Купить продукты", "Купить хлеб", TODOApp.STUB_ACTION);
+        menu.add("Купить продукты", "Купить молоко", TODOApp.STUB_ACTION);
     }
 
     @Test
     public void whenAddThenReturnSame() {
         assertThat(new Menu.MenuItemInfo(
-                "Сходить в магазин", List.of("Купить продукты"), STUB_ACTION, "1."
+                "Сходить в магазин", List.of("Купить продукты"), TODOApp.STUB_ACTION, "1."
         )).isEqualTo(menu.select("Сходить в магазин").get());
         assertThat(new Menu.MenuItemInfo(
                 "Купить продукты", List.of("Купить хлеб", "Купить молоко"), STUB_ACTION, "1.1."

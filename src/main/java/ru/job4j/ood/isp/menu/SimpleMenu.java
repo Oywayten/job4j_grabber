@@ -9,6 +9,9 @@ public class SimpleMenu implements Menu {
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
         boolean b = false;
+        if (("").equals(parentName)) {
+            parentName = Menu.ROOT;
+        }
         Optional<ItemInfo> parentOp = findItem(parentName);
         Optional<ItemInfo> childOp = findItem(childName);
         if (Objects.equals(Menu.ROOT, parentName) && childOp.isEmpty()) {
@@ -18,6 +21,13 @@ public class SimpleMenu implements Menu {
             ItemInfo parent = parentOp.get();
             List<MenuItem> children = parent.menuItem.getChildren();
             children.add(new SimpleMenuItem(childName, actionDelegate));
+            b = true;
+        } else if (!Objects.equals(Menu.ROOT, parentName)
+                && parentOp.isEmpty()
+                && !Objects.equals(Menu.ROOT, childName)
+                && childOp.isEmpty()) {
+            add(Menu.ROOT, parentName, actionDelegate);
+            add(parentName, childName, actionDelegate);
             b = true;
         }
         return b;
@@ -98,6 +108,20 @@ public class SimpleMenu implements Menu {
     }
 
     /**
+     * Класс служит для того, чтобы скомпоновать пункт меню и номер пункта (1.1., 1.1.1. и т.д.).
+     */
+    private static class ItemInfo {
+
+        MenuItem menuItem;
+        String number;
+
+        public ItemInfo(MenuItem menuItem, String number) {
+            this.menuItem = menuItem;
+            this.number = number;
+        }
+    }
+
+    /**
      * Это итератор, основанный на поиске в глубину.
      * Но немного модифицированный, поскольку нам удобно читать пункты меню сверху-вниз и слева-направо.
      */
@@ -134,20 +158,6 @@ public class SimpleMenu implements Menu {
                 numbers.addFirst(lastNumber.concat(String.valueOf(currentNumber--)).concat("."));
             }
             return new ItemInfo(current, lastNumber);
-        }
-    }
-
-    /**
-     * Класс служит для того, чтобы скомпоновать пункт меню и номер пункта (1.1., 1.1.1. и т.д.).
-     */
-    private static class ItemInfo {
-
-        MenuItem menuItem;
-        String number;
-
-        public ItemInfo(MenuItem menuItem, String number) {
-            this.menuItem = menuItem;
-            this.number = number;
         }
     }
 
