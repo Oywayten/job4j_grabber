@@ -27,8 +27,9 @@ public class Parking3d implements IParking {
             cargoPlaces[cargoCursor++] = car;
             b = true;
         } else if (passCursor <= passPlaces.length - size) {
-            passPlaces[passCursor] = car;
-            passCursor = passCursor + size;
+            for (int i = 0; i < size; i++) {
+                passPlaces[passCursor++] = car;
+            }
             b = true;
         }
         return b;
