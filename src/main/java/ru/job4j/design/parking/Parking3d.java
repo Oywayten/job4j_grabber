@@ -4,7 +4,6 @@ import java.util.Objects;
 
 public class Parking3d implements IParking {
     private static final int ZERO = 0;
-    private static final int ONE = 1;
     private final ICar[] passPlaces;
     private final ICar[] cargoPlaces;
     private int passCursor;
@@ -16,8 +15,6 @@ public class Parking3d implements IParking {
         }
         passPlaces = new ICar[passSize];
         cargoPlaces = new ICar[cargoSize];
-        passCursor = 0;
-        cargoCursor = 0;
     }
 
     @Override
@@ -25,7 +22,7 @@ public class Parking3d implements IParking {
         int size = car.getSize();
         boolean b = false;
         Objects.requireNonNull(car);
-        if (size > ONE
+        if (size > PassCar3d.SIZE
                 && cargoCursor < cargoPlaces.length) {
             cargoPlaces[cargoCursor++] = car;
             b = true;
