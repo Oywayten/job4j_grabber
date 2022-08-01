@@ -9,25 +9,14 @@ public class SimpleMenu implements Menu {
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
         boolean b = false;
-        if (("").equals(parentName)) {
-            parentName = Menu.ROOT;
-        }
-        Optional<ItemInfo> parentOp = findItem(parentName);
-        Optional<ItemInfo> childOp = findItem(childName);
-        if (Objects.equals(Menu.ROOT, parentName) && childOp.isEmpty()) {
+        if (findItem(childName).isPresent()) {
+            return b;
+        } else if (Objects.equals(Menu.ROOT, parentName)) {
             rootElements.add(new SimpleMenuItem(childName, actionDelegate));
             b = true;
-        } else if (parentOp.isPresent() && childOp.isEmpty()) {
-            ItemInfo parent = parentOp.get();
-            List<MenuItem> children = parent.menuItem.getChildren();
+        } else if (findItem(parentName).isPresent()) {
+            List<MenuItem> children = findItem(parentName).get().menuItem.getChildren();
             children.add(new SimpleMenuItem(childName, actionDelegate));
-            b = true;
-        } else if (!Objects.equals(Menu.ROOT, parentName)
-                && parentOp.isEmpty()
-                && !Objects.equals(Menu.ROOT, childName)
-                && childOp.isEmpty()) {
-            add(Menu.ROOT, parentName, actionDelegate);
-            add(parentName, childName, actionDelegate);
             b = true;
         }
         return b;
@@ -35,11 +24,7 @@ public class SimpleMenu implements Menu {
 
     @Override
     public Optional<MenuItemInfo> select(String itemName) {
-        Optional<ItemInfo> item = findItem(itemName);
-        ItemInfo info = item.get();
-        MenuItem item1 = info.menuItem;
-        MenuItemInfo info1 = new MenuItemInfo(item1, info.number);
-        return Optional.of(info1);
+        return findItem(itemName).map(info -> new MenuItemInfo(info.menuItem, info.number));
     }
 
     @Override

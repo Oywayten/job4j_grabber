@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,6 +37,11 @@ public class SimpleMenuTest {
 
     @Test
     public void whenPrintWithIndents() {
+        assertThat(menu.select("помыть кота")).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void whenSelectIsWrong() {
         MenuPrinter3d printer3d = new MenuPrinter3d();
         String expected = """
                 Сходить в магазин 1.

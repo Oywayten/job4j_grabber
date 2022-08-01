@@ -6,28 +6,43 @@ public class TODOApp {
     public static final ActionDelegate STUB_ACTION = System.out::println;
 
     private static final int NEW_ITEM = 1;
-    private static final String ROOT = "Пожалуйста введите название корневого элемент";
-    private static final String ITEM_NAME = "Пожалуйста введите название задачи";
-    private static final String CHOOSE =
-            "1 для создания нового элемента меню, иное число для выхода";
+    private static final int SHOW = 2;
+    private static final int EXIT = 3;
+    private static final String ROOT = """
+            Пожалуйста введите название корневого элемент или нажмите Enter,
+            если вводите корневой элемент
+            """;
+    private static final String ITEM_NAME = "Введите название задачи";
+    private static final String CHOOSE = """
+            Выберите
+            1 чтобы добавить пункт меню
+            2 чтобы вывести меню
+            3 чтобы выйти
+            """;
+    private static final String GOODBYE = "Всего доброго!";
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Menu menu = new SimpleMenu();
         MenuPrinter3d printer3d = new MenuPrinter3d();
         System.out.println(CHOOSE);
-        String i = sc.nextLine();
-        int j = Integer.parseInt(i);
-        while (j == NEW_ITEM) {
-            System.out.println(ROOT);
-            String parentName = sc.nextLine();
-            System.out.println(ITEM_NAME);
-            String childName = sc.nextLine();
-            menu.add(parentName, childName, STUB_ACTION);
-            printer3d.print(menu);
+        int j = Integer.parseInt(sc.nextLine());
+        while (j != EXIT) {
+            if (j == SHOW) {
+                printer3d.print(menu);
+            } else if (j == NEW_ITEM) {
+                System.out.println(ROOT);
+                String parentName = sc.nextLine();
+                if (("").equals(parentName)) {
+                    parentName = Menu.ROOT;
+                }
+                System.out.println(ITEM_NAME);
+                String childName = sc.nextLine();
+                menu.add(parentName, childName, STUB_ACTION);
+            }
             System.out.println(CHOOSE);
-            i = sc.nextLine();
-            j = Integer.parseInt(i);
+            j = Integer.parseInt(sc.nextLine());
         }
+        System.out.println(GOODBYE);
     }
 }
