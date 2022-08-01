@@ -26,11 +26,11 @@ public class TODOApp {
         Menu menu = new SimpleMenu();
         MenuPrinter3d printer3d = new MenuPrinter3d();
         System.out.println(CHOOSE);
-        int j = Integer.parseInt(sc.nextLine());
-        while (j != EXIT) {
-            if (j == SHOW) {
+        int menuChoice = Integer.parseInt(sc.nextLine());
+        while (menuChoice != EXIT) {
+            if (menuChoice == SHOW) {
                 printer3d.print(menu);
-            } else if (j == NEW_ITEM) {
+            } else if (menuChoice == NEW_ITEM) {
                 System.out.println(ROOT);
                 String parentName = sc.nextLine();
                 if (("").equals(parentName)) {
@@ -41,7 +41,7 @@ public class TODOApp {
                 menu.add(parentName, childName, STUB_ACTION);
             }
             System.out.println(CHOOSE);
-            j = Integer.parseInt(sc.nextLine());
+            menuChoice = Integer.parseInt(sc.nextLine());
         }
         System.out.println(GOODBYE);
     }
