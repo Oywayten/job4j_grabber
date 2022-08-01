@@ -39,6 +39,13 @@ class Parking3dTest {
     }
 
     @Test
+    void whenPlaces3PassAndCars1CargoOf3Places() {
+        parking = new Parking3d(3, 0);
+        assertThat(parking.carParking(new CargoCar3d(3))).isEqualTo(true);
+        assertThat(parking.carParking(new PassCar3d())).isEqualTo(false);
+    }
+
+    @Test
     void whenPlaces0Pass0Cargo() {
         assertThatIllegalArgumentException().isThrownBy(() -> new Parking3d(0, 0));
     }
