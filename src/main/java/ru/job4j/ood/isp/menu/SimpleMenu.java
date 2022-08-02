@@ -9,16 +9,18 @@ public class SimpleMenu implements Menu {
     @Override
     public boolean add(String parentName, String childName, ActionDelegate actionDelegate) {
         boolean wasAdded = false;
-        Optional<ItemInfo> parentOp = findItem(parentName);
         if (findItem(childName).isPresent()) {
             return wasAdded;
         } else if (Objects.equals(Menu.ROOT, parentName)) {
             rootElements.add(new SimpleMenuItem(childName, actionDelegate));
             wasAdded = true;
-        } else if (parentOp.isPresent()) {
-            List<MenuItem> children = parentOp.get().menuItem.getChildren();
-            children.add(new SimpleMenuItem(childName, actionDelegate));
-            wasAdded = true;
+        } else {
+            Optional<ItemInfo> parentOp = findItem(parentName);
+            if (parentOp.isPresent()) {
+                List<MenuItem> children = parentOp.get().menuItem.getChildren();
+                children.add(new SimpleMenuItem(childName, actionDelegate));
+                wasAdded = true;
+            }
         }
         return wasAdded;
     }
@@ -139,7 +141,7 @@ public class SimpleMenu implements Menu {
             String lastNumber = numbers.removeFirst();
             List<MenuItem> children = current.getChildren();
             int currentNumber = children.size();
-            for (ListIterator<MenuItem> i = children.listIterator(children.size()); i.hasPrevious();) {
+            for (ListIterator<MenuItem> i = children.listIterator(children.size()); i.hasPrevious(); ) {
                 stack.addFirst(i.previous());
                 numbers.addFirst(lastNumber.concat(String.valueOf(currentNumber--)).concat("."));
             }
