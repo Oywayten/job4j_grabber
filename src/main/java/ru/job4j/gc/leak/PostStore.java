@@ -3,26 +3,25 @@ package ru.job4j.gc.leak;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class PostStore {
 
-    private static final Map<Integer, Post> POSTS = new HashMap<>();
+    private final Map<Integer, Post> posts = new HashMap<>();
 
-    public AtomicInteger atomicInteger = new AtomicInteger(1);
+    public int atomicInteger = 1;
 
-    public static Collection<Post> getPosts() {
-        return POSTS.values();
+    public Collection<Post> getPosts() {
+        return posts.values();
     }
 
     public Post add(Post post) {
-        Integer id = atomicInteger.getAndIncrement();
+        int id = atomicInteger++;
         post.setId(id);
-        POSTS.put(id, post);
+        posts.put(id, post);
         return post;
     }
 
     public void removeAll() {
-        POSTS.clear();
+        posts.clear();
     }
 }
