@@ -34,3 +34,5 @@ hs_err_pid*
 /target/checkstyle-cachefile
 /target/checkstyle-checker.xml
 /target/checkstyle-result.xml
+testdb.*
+log.txt*
