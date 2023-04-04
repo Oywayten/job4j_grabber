@@ -1,21 +1,44 @@
-# job4j_grabber
-В этом репозитории проект - **Агрегатор вакансий**.
+# Job grabber
 
-Подключены maven, jacoco, checkstyle.
+### About the application
 
-Приложение собирается в jar.
++ Web application **"Job Aggregator"** in Java for parsing vacancies from the specified site.  
++ Reads all Java vacancies and writes to the database.
++ System starts on schedule. The start period is specified in the settings - app.properties.
++ The first site will [career.habr.com](https://career.habr.com/ "go to career.habr.com"). It has a vacancies section.
++ REST API access to the interface.
 
-### Описание
+### Expandability
 
-Система запускается по расписанию. Период запуска указан в настройках - app.properties. 
+1. Add new sites without changing the code.
+2. Parallel site parsing.
 
-Первый сайт будет [career.habr.com](https://career.habr.com/ "переход на сайт career.habr.com"). В нем есть раздел /vacancies. Программа считывает все вакансии относящиеся к Java и записывает их в базу.
+## Technology stack:
+```text
++ Java 17;
++ Maven 4.0;
++ PostgreSQL 14;
++ JDBC;
++ Liquibase;
++ Log4j;
++ JaCoCo
++ Checkstyle
+```
+## Application launch:
 
-Доступ к интерфейсу через REST API.
+1. Install PostgreSQL: login - postgres, password - password;
+2. Create database schema;
+    ```postgres-sql
+    CREATE DATABASE schema;
+    ```
+3. Build the project and run the application
+    ```shell
+    mvn clean compile exec:java -Dexec.mainClass="ru.job4j.grabber.Grabber"
+   ```
+## Application use:
++ Get vacancies list http://localhost:9000/  
+  <img alt="List of vacancies from sites" src="img/img.png" title="List of vacancies" width="500"/>
 
-
-### Расширение
-
-1. Можно добавлять новые сайты без изменения кода.
-
-2. Можно делать параллельный парсинг сайтов.
+### Contacts
++ email: [oywayten+git@gmail.com](mailto:oywayten+git@gmail.com)
++ telegram: [@VitaliyJVM](https://t.me/VitaliyJVM/ "go to t.me/VitaliyJVM")
