@@ -8,7 +8,7 @@
 + The first site will [career.habr.com](https://career.habr.com/ "go to career.habr.com"). It has a vacancies section.
 + REST API access to the interface.
 
-### Expandability
+## Expandability
 
 1. Add new sites without changing the code.
 2. Parallel site parsing.
